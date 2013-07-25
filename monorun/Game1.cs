@@ -1,5 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+
+using monorun;
 
 namespace monorun
 {
@@ -10,6 +14,14 @@ namespace monorun
     {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
+        Player player;
+
+        //Mouse states used to track Mouse button press
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+
+        // A movement speed for the player
+        float playerMoveSpeed;
 
         public Game1()
         {
@@ -26,6 +38,13 @@ namespace monorun
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            player = new Player();
+            player.Initialize(Content.Load<Texture2D>("Graphics\\player"), playerPosition );
+            playerMoveSpeed = 8.0f;
+
+            //Enable the FreeDrag gesture.
+            TouchPanel.EnabledGestures = GestureType.FreeDrag;
 
             base.Initialize();
         }
@@ -59,8 +78,43 @@ namespace monorun
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
-
+            UpdatePlayer(gameTime);
             base.Update(gameTime);
+        }
+
+        private void UpdatePlayer(GameTime gameTime) 
+        {
+            // Windows 8 Touch Gestures for MonoGame
+            while (TouchPanel.IsGestureAvailable)
+            {
+                GestureSample gesture = TouchPanel.ReadGesture();
+
+                
+
+                if (gesture.GestureType == GestureType.FreeDrag)
+                {
+                    player.Position += gesture.Delta;
+
+                    System.Diagnostics.Debug.WriteLine(player.Position.X);
+                   // System.Console.WriteLine(player.Position.Y.ToString());
+                   // System.Console.WriteLine(player.Position.X.ToString());
+                }
+            }
+
+            currentMouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
+            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 posDelta = mousePosition - player.Position;
+                posDelta.Normalize();
+                posDelta = posDelta * playerMoveSpeed;
+                player.Position = player.Position + posDelta;
+
+            }
+            previousMouseState = currentMouseState;
+            // Make sure that the player does not go out of bounds
+           // player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width);
+           // player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
         }
 
         /// <summary>
@@ -71,7 +125,14 @@ namespace monorun
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // Start drawing
+            _spriteBatch.Begin();
+
+            // Draw the Player
+            player.Draw(_spriteBatch);
+
+            // Stop drawing
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
