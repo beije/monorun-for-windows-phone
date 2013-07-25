@@ -1,24 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monorun", "monorun\monorun\monorun.csproj", "{E984A546-13A1-4CB2-9A4A-E5711758F3D6}"
-EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "monorunContent", "monorun\monorunContent\monorunContent.contentproj", "{C45E9527-61C9-412C-A78A-522718BE9F38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monorun", "monorun\monorun.csproj", "{8D3A2126-0C8B-4BD8-8366-20093014FAEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Windows Phone = Debug|Windows Phone
-		Release|Windows Phone = Release|Windows Phone
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Release|Windows Phone.Build.0 = Release|Windows Phone
-		{E984A546-13A1-4CB2-9A4A-E5711758F3D6}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
-		{C45E9527-61C9-412C-A78A-522718BE9F38}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
-		{C45E9527-61C9-412C-A78A-522718BE9F38}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|ARM.Build.0 = Debug|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|ARM.Deploy.0 = Debug|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|x86.ActiveCfg = Debug|x86
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|x86.Build.0 = Debug|x86
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Debug|x86.Deploy.0 = Debug|x86
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|ARM.ActiveCfg = Release|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|ARM.Build.0 = Release|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|ARM.Deploy.0 = Release|ARM
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|x86.ActiveCfg = Release|x86
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|x86.Build.0 = Release|x86
+		{8D3A2126-0C8B-4BD8-8366-20093014FAEE}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
