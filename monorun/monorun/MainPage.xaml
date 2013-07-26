@@ -14,25 +14,32 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Border Background="White">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+            <!--TitlePanel contains the name of the application and page title-->
+            <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+                <TextBlock x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DD000000"/>
+                <TextBlock x:Name="PageTitle" Text="monorun!" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DD000000" TextAlignment="Center"/>
+                <TextBlock x:Name="ApplicationDescription" TextWrapping="Wrap" Text="Monorun! is a minimalistic game about the transience of life. As the nucleus of an atom, it's your purpose to stay positive for as long as you can. Avoid those negative electrons." Foreground="#DD000000" TextAlignment="Center" Margin="15,52,15,0" />
+            </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            
-            <!--Create a single button to navigate to the second page which is rendered with the XNA Framework-->
-            <Button Height="100" Content="Start monorun!" Click="Button_Click" />
-            
+            <!--ContentPanel - place additional content here-->
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+
+                <!--Create a single button to navigate to the second page which is rendered with the XNA Framework-->
+                <Button Height="100" Content="stay positive!" Click="Button_Click" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,380" />
+
+            </Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
+            </Grid.Background>
         </Grid>
-    </Grid>
- 
+    </Border>
+    
+
 </phone:PhoneApplicationPage>
