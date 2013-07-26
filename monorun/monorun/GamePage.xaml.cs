@@ -12,6 +12,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using monorun;
 
 namespace monorun
 {
@@ -20,6 +23,14 @@ namespace monorun
         ContentManager contentManager;
         GameTimer timer;
         SpriteBatch spriteBatch;
+        Player player;
+
+        //Mouse states used to track Mouse button press
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+
+        // A movement speed for the player
+        float playerMoveSpeed;
 
         public GamePage()
         {
@@ -48,6 +59,13 @@ namespace monorun
             // Start the timer
             timer.Start();
 
+            player = new Player();
+            playerMoveSpeed = 8.0f;
+            Vector2 playerPosition = new Vector2(20, 20);
+            player.Initialize(contentManager.Load<Texture2D>("Graphics\\player"), playerPosition);
+
+            TouchPanel.EnabledGestures = GestureType.FreeDrag;
+
             base.OnNavigatedTo(e);
         }
 
@@ -68,7 +86,28 @@ namespace monorun
         /// </summary>
         private void OnUpdate(object sender, GameTimerEventArgs e)
         {
+
             // TODO: Add your update logic here
+            UpdatePlayer();
+        }
+
+
+        private void UpdatePlayer()
+        {
+            while (TouchPanel.IsGestureAvailable)
+            {
+                GestureSample gesture = TouchPanel.ReadGesture();
+                //System.Diagnostics.Debug.WriteLine(gesture.Delta);
+                if (gesture.GestureType == GestureType.FreeDrag)
+                {
+                    player.Position += gesture.Delta;
+                }
+            }
+            float width = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
+            float height = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
+
+            player.Position.X = MathHelper.Clamp(player.Position.X, 0, width - player.Width);
+            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, height - player.Height);
         }
 
         /// <summary>
@@ -76,9 +115,19 @@ namespace monorun
         /// </summary>
         private void OnDraw(object sender, GameTimerEventArgs e)
         {
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.CornflowerBlue);
+            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+
+            // Start drawing
+            spriteBatch.Begin();
+
+            // Draw the Player
+            player.Draw(spriteBatch);
+
+            // Stop drawing
+            spriteBatch.End();
+
         }
     }
 }
