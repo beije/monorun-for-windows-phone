@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -28,13 +27,7 @@ namespace monorun
         List<Roland> rolands;
         GameTimer AddRolands;
         PreAnimator preAnimator;
-
-        //Mouse states used to track Mouse button press
-        MouseState currentMouseState;
-        MouseState previousMouseState;
-
-        // A movement speed for the player
-        float playerMoveSpeed;
+        Boolean collided;
 
         public GamePage()
         {
@@ -73,7 +66,7 @@ namespace monorun
             AddRolands.Start();
 
             player = new Player();
-            playerMoveSpeed = 8.0f;
+   
             Vector2 playerPosition = new Vector2(20, 20);
             player.Initialize(contentManager.Load<Texture2D>("Graphics\\player"), playerPosition);
 
@@ -123,6 +116,15 @@ namespace monorun
             {
                 renderable.Update();
             }
+            collided = false;
+            foreach( Roland roland in rolands )
+            {
+                if (IntersectsPixel(player.getItemRectangle(), player.getTextureData(), roland.getItemRectangle(), roland.getTextureData()))
+                {
+                    collided = true;
+                    break;
+                }
+            }
             
         }
 
@@ -131,7 +133,14 @@ namespace monorun
         /// </summary>
         private void OnDraw(object sender, GameTimerEventArgs e)
         {
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Black);
+            if (!collided)
+            {
+                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Black);
+            }
+            else
+            {
+                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Red);     
+            }
 
             // TODO: Add your drawing code here
             foreach ( GameItem renderable in gameItems)
@@ -145,8 +154,31 @@ namespace monorun
                 // Stop drawing
                 spriteBatch.End();
             }
-            
-
         }
-    }
+
+        static bool IntersectsPixel(Rectangle rect1, Color[] data1, Rectangle rect2, Color[] data2)
+        {
+            int top = Math.Max( rect1.Top, rect2.Top );
+            int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
+            int left = Math.Max(rect1.Left, rect2.Left);
+            int right = Math.Min(rect1.Right, rect2.Right);
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    Color colour1 = data1[(x - rect1.Left) + (y - rect1.Top) * rect1.Width];
+                    Color colour2 = data2[(x - rect2.Left) + (y - rect2.Top) * rect2.Width];
+
+                    if (colour1.A != 0 && colour2.A != 0)
+                    {
+                        return true;
+                    }
+                    
+                }
+            }
+
+            return false;
+        }
+    }   
 }

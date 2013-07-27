@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Content;
 namespace monorun
 {
     class GameItem
     {
         // Animation representing the player
         public Texture2D ItemTexture;
+        private Color[] textureData;
 
         // Position of the Player relative to the upper left side of the screen
         public Vector2 Position;
@@ -37,6 +38,19 @@ namespace monorun
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(ItemTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        }
+        public virtual Color[] getTextureData() {
+
+            textureData = new Color[ItemTexture.Width * ItemTexture.Height];
+            ItemTexture.GetData(textureData);
+
+            return textureData;
+        }
+        public virtual Rectangle getItemRectangle() 
+        {
+            Rectangle rect = new Rectangle( (int)(Position.X-(ItemTexture.Width/2)), (int)(Position.Y-(ItemTexture.Height/2)), ItemTexture.Width, ItemTexture.Height );
+
+            return rect;
         }
     }
 }
