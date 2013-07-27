@@ -24,6 +24,7 @@ namespace monorun
         GameTimer timer;
         SpriteBatch spriteBatch;
         Player player;
+        List<GameItem> gameItems;
 
         //Mouse states used to track Mouse button press
         MouseState currentMouseState;
@@ -50,6 +51,7 @@ namespace monorun
         {
             // Set the sharing mode of the graphics device to turn on XNA rendering
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
+            gameItems = new List<GameItem>();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
@@ -63,6 +65,8 @@ namespace monorun
             playerMoveSpeed = 8.0f;
             Vector2 playerPosition = new Vector2(20, 20);
             player.Initialize(contentManager.Load<Texture2D>("Graphics\\player"), playerPosition);
+
+            gameItems.Add( player );
 
             TouchPanel.EnabledGestures = GestureType.FreeDrag;
 
@@ -88,26 +92,7 @@ namespace monorun
         {
 
             // TODO: Add your update logic here
-            UpdatePlayer();
-        }
-
-
-        private void UpdatePlayer()
-        {
-            while (TouchPanel.IsGestureAvailable)
-            {
-                GestureSample gesture = TouchPanel.ReadGesture();
-                //System.Diagnostics.Debug.WriteLine(gesture.Delta);
-                if (gesture.GestureType == GestureType.FreeDrag)
-                {
-                    player.Position += gesture.Delta;
-                }
-            }
-            float width = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
-            float height = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
-
-            player.Position.X = MathHelper.Clamp(player.Position.X, 0, width - player.Width);
-            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, height - player.Height);
+            player.Update();
         }
 
         /// <summary>
@@ -118,15 +103,18 @@ namespace monorun
             SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            foreach ( GameItem renderable in gameItems)
+            {
+                // Start drawing
+                spriteBatch.Begin();
 
-            // Start drawing
-            spriteBatch.Begin();
+                // Draw the item
+                renderable.Draw(spriteBatch);
 
-            // Draw the Player
-            player.Draw(spriteBatch);
-
-            // Stop drawing
-            spriteBatch.End();
+                // Stop drawing
+                spriteBatch.End();
+            }
+            
 
         }
     }
