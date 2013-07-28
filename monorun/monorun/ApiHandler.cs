@@ -25,7 +25,12 @@ namespace monorun
                 //doRequest("get");
             }
         }
+        public void postResult( int score, string username )
+        {
+            String url = apiUrl + "?do=put&playerid=" + playerid + "&username=" + username + "&score=" + score+"&sourceid=3";
+            makeRequest(url, postResultCallback);
 
+        }
         public void doRequest(string type)
         {
             if (!isOnline)
@@ -57,6 +62,13 @@ namespace monorun
             {
                 this.playerid = (string)e.Result;
                 System.Diagnostics.Debug.WriteLine(playerid);
+            }
+        }
+        private void postResultCallback(Object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (!e.Cancelled && e.Error == null)
+            {
+                System.Diagnostics.Debug.WriteLine((string)e.Result);
             }
         }
         private void makeRequest( String url, Action<Object, DownloadStringCompletedEventArgs> callback )
