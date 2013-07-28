@@ -28,10 +28,13 @@ namespace monorun
         GameTimer AddRolands;
         PreAnimator preAnimator;
         Boolean collided;
+        ApiHandler api;
 
         public GamePage()
         {
             InitializeComponent();
+            api = new ApiHandler();
+            System.Diagnostics.Debug.WriteLine( api.isOnline );
 
             // Get the content manager from the application
             contentManager = (Application.Current as App).Content;
@@ -55,7 +58,7 @@ namespace monorun
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
             gameItems = new List<GameItem>();
             rolands = new List<Roland>();
-
+            api.doRequest("register");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
