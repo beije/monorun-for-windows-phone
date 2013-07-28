@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using Microsoft.Phone.Net.NetworkInformation;
 using System.IO;
-
+using Newtonsoft.Json;
 
 namespace monorun
 {
@@ -14,6 +14,7 @@ namespace monorun
         public Boolean isOnline;
         private string apiUrl = "http://10.0.0.11/monorun/monorun/api/api.php";
         private string playerid;
+        private List<Highscore> highscores;
         private WebClient wc;
 
         public ApiHandler()
@@ -21,7 +22,7 @@ namespace monorun
             isOnline = CheckForInternetConnection();
             if (isOnline) 
             {
-                wc = new WebClient();
+                //doRequest("get");
             }
         }
 
@@ -36,8 +37,18 @@ namespace monorun
                 case "register":
                     makeRequest(apiUrl + "?do=register", registerPlayer);
                 break;
+                case "get":
+                    makeRequest(apiUrl + "?do=get", populateHighscore);  
+                break;
             }
         
+        }
+        private void populateHighscore(Object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (!e.Cancelled && e.Error == null)
+            {
+                highscores = JsonConvert.DeserializeObject<List<Highscore>>((string)e.Result);
+            }
         }
 
         private void registerPlayer( Object sender, DownloadStringCompletedEventArgs e )

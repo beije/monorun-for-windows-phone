@@ -35,7 +35,7 @@ namespace monorun
             InitializeComponent();
             api = new ApiHandler();
             System.Diagnostics.Debug.WriteLine( api.isOnline );
-
+            api.doRequest("get");
             // Get the content manager from the application
             contentManager = (Application.Current as App).Content;
             preAnimator = new PreAnimator();
@@ -94,7 +94,7 @@ namespace monorun
 
         public void addRoland(object sender, GameTimerEventArgs e)
         {
-            if (rolands.Count >= 5) return;
+            //if (rolands.Count >= 5) return;
             int ScreenWidth = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
             int ScreenHeight = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
             Random rnd = new Random();
@@ -161,7 +161,6 @@ namespace monorun
         }
 
         static bool intersectsBox( Rectangle source, Rectangle target ) {
-        
 		    return !(
                 ((source.Y + source.Height) < (target.Y)) ||
 			    ( source.Y > ( target.Y + target.Height ) ) ||
@@ -179,7 +178,7 @@ namespace monorun
             int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
             int left = Math.Max(rect1.Left, rect2.Left);
             int right = Math.Min(rect1.Right, rect2.Right);
-            System.Diagnostics.Debug.WriteLine(top+' '+bottom+" "+left+" "+right);
+
             for (int y = top; y < bottom; y++)
             {
                 for (int x = left; x < right; x++)
