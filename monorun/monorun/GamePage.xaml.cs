@@ -139,15 +139,47 @@ namespace monorun
         {
             if (!collided)
             {
-                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Black);
+                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(new Color(22,27,30));
             }
             else
             {
                 SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Red);     
             }
+            
+
+
 
             // TODO: Add your drawing code here
-            foreach ( GameItem renderable in gameItems)
+
+            // Connect rolands together
+            for (int i = 0; i < rolands.Count; i = i + 2)
+            {
+                if (i + 1 >= rolands.Count) break;
+                var basePos = rolands[i].Position;
+                var newPos = rolands[i + 1].Position;
+
+                basePos.X += 31;
+                basePos.Y += 36;
+
+                newPos.X += 31;
+                newPos.Y += 36;
+
+                spriteBatch.Begin();
+                if (basePos.Y > newPos.Y)
+                {
+                    DrawLine(spriteBatch, basePos, newPos);
+                }
+                else
+                {
+                    DrawLine(spriteBatch, newPos, basePos);
+                }
+
+                spriteBatch.End();
+            }
+
+
+            // Render out all items
+            foreach (GameItem renderable in gameItems)
             {
                 // Start drawing
                 spriteBatch.Begin();
@@ -158,6 +190,34 @@ namespace monorun
                 // Stop drawing
                 spriteBatch.End();
             }
+
+        }
+
+        void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end)
+        {
+            var t = new Texture2D(SharedGraphicsDeviceManager.Current.GraphicsDevice, 1, 1);
+            t.SetData<Color>(
+                new Color[] { Color.White });// fill the texture with white
+
+            Vector2 edge = end - start;
+            // calculate angle to rotate line
+            float angle =
+                (float)Math.Atan2(edge.Y, edge.X);
+
+
+            sb.Draw(t,
+                new Rectangle(// rectangle defines shape of line and position of start of line
+                    (int)start.X,
+                    (int)start.Y,
+                    (int)edge.Length(), //sb will strech the texture to fill this rectangle
+                    10), //width of line, change this to make thicker line
+                null,
+                new Color(29, 43, 48), //colour of line
+                angle,     //angle of line (calulated above)
+                new Vector2(0,0), // point in line about which to rotate
+                SpriteEffects.None,
+                0);
+
         }
 
         static bool intersectsBox( Rectangle source, Rectangle target ) {

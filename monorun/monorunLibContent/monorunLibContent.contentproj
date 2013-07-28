@@ -36,7 +36,6 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Compile Include="Graphics\logo.png">
       <Name>logo</Name>
