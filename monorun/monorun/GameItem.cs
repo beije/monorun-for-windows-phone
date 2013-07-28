@@ -12,6 +12,7 @@ namespace monorun
         // Animation representing the player
         public Texture2D ItemTexture;
         private Color[] textureData;
+       
 
         // Position of the Player relative to the upper left side of the screen
         public Vector2 Position;
@@ -25,7 +26,7 @@ namespace monorun
         public virtual void Initialize(Texture2D texture, Vector2 position)
         {
             ItemTexture = texture;
-
+            textureData = generateTextureData();
             // Set the starting position of the player around the middle of the screen and to the back
             Position = position;
         }
@@ -39,11 +40,14 @@ namespace monorun
         {
             spriteBatch.Draw(ItemTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
+        private Color[] generateTextureData()
+        {
+            Color[] td = new Color[ItemTexture.Width * ItemTexture.Height];
+            ItemTexture.GetData(td);
+
+            return td;
+        }
         public virtual Color[] getTextureData() {
-
-            textureData = new Color[ItemTexture.Width * ItemTexture.Height];
-            ItemTexture.GetData(textureData);
-
             return textureData;
         }
         public virtual Rectangle getItemRectangle() 
