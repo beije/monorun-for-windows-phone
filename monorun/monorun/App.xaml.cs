@@ -15,6 +15,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using monorun;
 
 namespace monorun
 {
@@ -41,6 +42,8 @@ namespace monorun
         /// </summary>
         public AppServiceProvider Services { get; private set; }
 
+        public ApiHandler api;
+
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -57,6 +60,10 @@ namespace monorun
 
             // XNA initialization
             InitializeXnaApplication();
+
+            api = new ApiHandler();
+            System.Diagnostics.Debug.WriteLine(api.isOnline);
+            api.doRequest("get");
 
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached)

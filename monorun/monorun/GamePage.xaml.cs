@@ -33,15 +33,13 @@ namespace monorun
         public GamePage()
         {
             InitializeComponent();
-            /*
-            api = new ApiHandler();
-            System.Diagnostics.Debug.WriteLine( api.isOnline );
-            api.doRequest("get");
-            */
+            
             // Get the content manager from the application
             contentManager = (Application.Current as App).Content;
+            api = (Application.Current as App).api;
+            
             preAnimator = new PreAnimator();
-
+            
             // Create a timer for this page
             timer = new GameTimer();
             timer.UpdateInterval = TimeSpan.FromTicks(166667); // 60fps
@@ -60,7 +58,9 @@ namespace monorun
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
             gameItems = new List<GameItem>();
             rolands = new List<Roland>();
-            //api.doRequest("register");
+
+            api.doRequest("register");
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace monorun
 {
-    class ApiHandler
+    public class ApiHandler
     {
         public Boolean isOnline;
         private string apiUrl = "http://10.0.0.11/monorun/monorun/api/api.php";
