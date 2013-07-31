@@ -61,9 +61,11 @@ namespace monorun
             // XNA initialization
             InitializeXnaApplication();
 
-            api = new ApiHandler();
+
+            api = new ApiHandler(isApiAvailable);
             System.Diagnostics.Debug.WriteLine(api.isOnline);
-            api.doRequest("get");
+
+            //api.doRequest("get");
 
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached)
@@ -84,6 +86,19 @@ namespace monorun
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
+        }
+
+        private void isApiAvailable(Object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (!e.Cancelled && e.Error == null)
+            {
+                api.setConnectionState( true );
+                System.Diagnostics.Debug.WriteLine("Api is online");
+                return;
+            }
+            api.setConnectionState( false );
+            System.Diagnostics.Debug.WriteLine("Api is offline");
+            
         }
 
         // Code to execute when the application is launching (eg, from Start)

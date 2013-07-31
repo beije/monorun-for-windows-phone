@@ -6,32 +6,55 @@ using System.Net;
 using Microsoft.Phone.Net.NetworkInformation;
 using System.IO;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace monorun
 {
     public class ApiHandler
     {
         public Boolean isOnline;
-        private string apiUrl = "http://10.0.0.11/monorun/monorun/api/api.php";
+        private string serverName = "10.0.0.11";
+        private string apiPath = "/monorun/monorun/api/api.php";
+        private string apiProtocol = "http";
+        private string apiUrl = "";
         private string playerid;
-        private List<Highscore> highscores;
-        private WebClient wc;
 
-        public ApiHandler()
+        public ApiHandler( Action<Object, DownloadStringCompletedEventArgs> apiAvailableCallback )
         {
+            apiUrl = apiProtocol + "://" + serverName + apiPath;
             isOnline = CheckForInternetConnection();
+            playerid = "";
             if (isOnline) 
             {
-                //doRequest("get");
+                if (apiAvailableCallback != null)
+                {
+                    // Check that the API is available
+                    makeRequest(apiUrl + "?", apiAvailableCallback);
+                }
             }
+        }
+        public void setConnectionState(Boolean state) 
+        {
+            isOnline = state;
         }
         public void postResult( int score, string username )
         {
-            String url = apiUrl + "?do=put&playerid=" + playerid + "&username=" + username + "&score=" + score+"&sourceid=3";
-            makeRequest(url, postResultCallback);
+            if (playerid == "") return;
 
+            String url = apiUrl + "?do=put&playerid=" + playerid + "&username=" + HttpUtility.UrlEncode(username) + "&score=" + score + "&sourceid=3";
+
+            Action<Object, DownloadStringCompletedEventArgs> cb = (o, e) =>
+             {
+                 if (!e.Cancelled && e.Error == null)
+                 {
+                     System.Diagnostics.Debug.WriteLine("Score registered: " + (String) e.Result);
+                 }
+             };
+
+            makeRequest(url, cb);
         }
-        public void doRequest(string type)
+
+        public void doRequest(string type, Action<Object, DownloadStringCompletedEventArgs> callback)
         {
             if (!isOnline)
             {
@@ -43,41 +66,40 @@ namespace monorun
                     makeRequest(apiUrl + "?do=register", registerPlayer);
                 break;
                 case "get":
-                    makeRequest(apiUrl + "?do=get", populateHighscore);  
+                    makeRequest(apiUrl + "?do=get", callback);  
                 break;
             }
         
         }
-        private void populateHighscore(Object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (!e.Cancelled && e.Error == null)
-            {
-                highscores = JsonConvert.DeserializeObject<List<Highscore>>((string)e.Result);
-            }
-        }
 
-        private void registerPlayer( Object sender, DownloadStringCompletedEventArgs e )
+        private void registerPlayer(Object sender, DownloadStringCompletedEventArgs e)
         {
             if (!e.Cancelled && e.Error == null)
             {
-                this.playerid = (string)e.Result;
+                try
+                {
+                    playerid = JsonConvert.DeserializeObject<String>((string)e.Result);
+                }
+                catch (Exception exc) { }
+ 
                 System.Diagnostics.Debug.WriteLine(playerid);
             }
-        }
-        private void postResultCallback(Object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (!e.Cancelled && e.Error == null)
+            else
             {
-                System.Diagnostics.Debug.WriteLine((string)e.Result);
+                System.Diagnostics.Debug.WriteLine("Request failed");
+                //System.Diagnostics.Debug.WriteLine(e.Error);
             }
         }
+        
         private void makeRequest( String url, Action<Object, DownloadStringCompletedEventArgs> callback )
         {
             WebClient client = new WebClient();
             Uri uri = new Uri(url);
-            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(callback);
+            if (callback != null) 
+            {
+                client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(callback);
+            }
             client.DownloadStringAsync(uri);
-            
         }
         private Boolean CheckForInternetConnection()
         {

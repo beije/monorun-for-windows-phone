@@ -29,6 +29,8 @@ namespace monorun
         PreAnimator preAnimator;
         Boolean collided;
         ApiHandler api;
+        DateTime startGameTime;
+        DateTime endGameTime;
 
         public GamePage()
         {
@@ -59,7 +61,9 @@ namespace monorun
             gameItems = new List<GameItem>();
             rolands = new List<Roland>();
 
-            api.doRequest("register");
+            api.doRequest("register",null);
+            startGameTime = DateTime.Now;
+
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
@@ -109,7 +113,18 @@ namespace monorun
             rolands.Add( enemy );
             gameItems.Add( enemy );
         }
-
+        public void endGame() 
+        {
+            endGameTime = DateTime.Now;
+            TimeSpan span = endGameTime - startGameTime;
+            int ms = (int)span.TotalMilliseconds;
+            System.Diagnostics.Debug.WriteLine(startGameTime);
+            System.Diagnostics.Debug.WriteLine(endGameTime);
+            api.postResult(ms, "beije - Windows Phone");
+            System.Threading.Thread.Sleep(2000);
+            timer.Stop();
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
         /// <summary>
         /// Allows the page to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -191,6 +206,10 @@ namespace monorun
 
                 // Stop drawing
                 spriteBatch.End();
+            }
+            if (collided) 
+            {
+                endGame();
             }
 
         }
