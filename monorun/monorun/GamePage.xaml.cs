@@ -123,7 +123,7 @@ namespace monorun
             api.postResult(ms, "beije - Windows Phone");
             System.Threading.Thread.Sleep(2000);
             timer.Stop();
-            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
         }
         /// <summary>
         /// Allows the page to run logic such as updating the world,
