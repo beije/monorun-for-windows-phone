@@ -124,6 +124,7 @@ namespace monorun
             System.Threading.Thread.Sleep(2000);
             timer.Stop();
             NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+			NavigationService.RemoveBackEntry();
         }
         /// <summary>
         /// Allows the page to run logic such as updating the world,

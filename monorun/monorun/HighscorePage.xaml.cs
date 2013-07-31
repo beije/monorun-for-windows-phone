@@ -15,6 +15,25 @@ namespace monorun
         public HighscorePage()
         {
             InitializeComponent();
+/*
+			HighscoreList.Items.Add("Phoebe Capricornus");
+			HighscoreList.Items.Add("Phoebe Fornax");
+			HighscoreList.Items.Add("Iapetos Coma Beren");
+			HighscoreList.Items.Add("Rhea Pictor");
+			HighscoreList.Items.Add("Hyperion Taurus");
+			HighscoreList.Items.Add("Kreios Andromeda");
+			HighscoreList.Items.Add("Phoebe Fornax");
+			HighscoreList.Items.Add("Iapetos Coma Beren");
+			HighscoreList.Items.Add("Rhea Pictor");
+			HighscoreList.Items.Add("Hyperion Taurus");
+ */
+
         }
+
+		private void View_Main(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+			NavigationService.RemoveBackEntry();
+		}
     }
 }

@@ -10,7 +10,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480"
+    mc:Ignorable="d" d:DesignHeight="1280" d:DesignWidth="720"
     shell:SystemTray.IsVisible="False">
     
     <!--No XAML content is required as the page is rendered entirely with the XNA Framework-->

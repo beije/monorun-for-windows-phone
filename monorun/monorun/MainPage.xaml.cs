@@ -22,9 +22,16 @@ namespace monorun
         }
 
         // Simple button Click event handler to take us to the second page
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Play_Game(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/GamePage.xaml", UriKind.Relative));
+			NavigationService.RemoveBackEntry();
+        }
+        // Simple button Click event handler to take us to the second page
+        private void View_Highscore(object sender, RoutedEventArgs e)
+        {
+			NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+			NavigationService.RemoveBackEntry();
         }
     }
 }

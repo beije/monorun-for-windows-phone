@@ -32,7 +32,9 @@
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
                 <!--Create a single button to navigate to the second page which is rendered with the XNA Framework-->
-                <Button Height="100" Content="stay positive!" Click="Button_Click" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,380" />
+                <Button Height="100" Content="stay positive!" Click="Play_Game" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,380" />
+                <!--Create a single button to navigate to the second page which is rendered with the XNA Framework-->
+                <Button Height="100" Content="view highscore" Click="View_Highscore" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,209" />
 
             </Grid>
             <Grid.Background>
