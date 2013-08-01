@@ -76,7 +76,7 @@ namespace monorun
                 {
                     playerid = JsonConvert.DeserializeObject<String>((string)e.Result);
                 }
-                catch (Exception exc) {
+                catch (Exception) {
 					// Something is wrong with the API, turn off the connection
 					isOnline = false;
 				}
