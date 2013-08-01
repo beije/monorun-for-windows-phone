@@ -130,7 +130,7 @@ namespace monorun
 			timeout.Tick += (object sender, EventArgs e) =>
 			{
 				timer.Stop();
-				NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+				NavigationService.Navigate(new Uri("/EndGamePage.xaml", UriKind.Relative));
 				NavigationService.RemoveBackEntry();
 				timeout.Stop(); // We only want this timer to run once, so we kill it after the first run.
 			};

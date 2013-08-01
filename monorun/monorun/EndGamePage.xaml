@@ -24,32 +24,13 @@
             <!--TitlePanel contains the name of the application and page title-->
 			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 				<TextBlock x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DD000000"/>
-				<TextBlock x:Name="PageTitle" Text="highscore" Margin="0,-7,10,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DD000000" TextAlignment="Center"/>
+				<TextBlock x:Name="PageTitle" Text="Your score" Margin="0,-7,10,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DD000000" TextAlignment="Center"/>
 			</StackPanel>
 
 			<!--ContentPanel - place additional content here-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-				<Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" Width="456" Height="563">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition />
-						<ColumnDefinition />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-				</Grid>
+			<Grid x:Name="UserNameSubmittal" Grid.Row="2"  Margin="0,22,0,0">
+				<TextBox x:Name="Username" Height="72" Margin="14,483,10,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="456"/>
 				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
-
 			</Grid>
 			
             <Grid.Background>
