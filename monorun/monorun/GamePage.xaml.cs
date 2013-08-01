@@ -120,7 +120,8 @@ namespace monorun
             int ms = (int)span.TotalMilliseconds;
             System.Diagnostics.Debug.WriteLine(startGameTime);
             System.Diagnostics.Debug.WriteLine(endGameTime);
-            api.postResult(ms, "beije - Windows Phone");
+
+            api.postResult(ms, "WP - Beije");
             System.Threading.Thread.Sleep(2000);
             timer.Stop();
             NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));

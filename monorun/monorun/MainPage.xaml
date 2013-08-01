@@ -38,7 +38,7 @@
 
             </Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
+                <ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
             </Grid.Background>
         </Grid>
     </Border>
