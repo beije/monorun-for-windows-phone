@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Windows.Media;
+using System.Windows.Input;
 
 namespace monorun
 {
@@ -15,25 +17,40 @@ namespace monorun
 		public EndGamePage()
         {
             InitializeComponent();
-/*
-			HighscoreList.Items.Add("Phoebe Capricornus");
-			HighscoreList.Items.Add("Phoebe Fornax");
-			HighscoreList.Items.Add("Iapetos Coma Beren");
-			HighscoreList.Items.Add("Rhea Pictor");
-			HighscoreList.Items.Add("Hyperion Taurus");
-			HighscoreList.Items.Add("Kreios Andromeda");
-			HighscoreList.Items.Add("Phoebe Fornax");
-			HighscoreList.Items.Add("Iapetos Coma Beren");
-			HighscoreList.Items.Add("Rhea Pictor");
-			HighscoreList.Items.Add("Hyperion Taurus");
- */
-
         }
 
 		private void View_Main(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
 			NavigationService.RemoveBackEntry();
+		}
+		private void submitUsername(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				TextBox t = (TextBox)sender;
+				MessageBox.Show(t.Text);
+			}
+		}
+		private void usernameFocused(object sender, RoutedEventArgs e)
+		{
+			TextBox t = (TextBox)sender;
+			t.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 86, 197, 219));
+			if( t.Text.Trim() == "Enter your username!")
+			{
+				t.Text = "";
+				t.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+			}
+		}
+		private void usernameBlured(object sender, RoutedEventArgs e)
+		{
+			TextBox t = (TextBox) sender;
+			t.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 157, 157, 157));
+			if (t.Text.Trim() == "")
+			{
+				t.Text = "Enter your username!";
+				t.Foreground = new SolidColorBrush(Color.FromArgb(255, 86, 197, 219));
+			}
 		}
     }
 }

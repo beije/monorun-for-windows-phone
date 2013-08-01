@@ -13,15 +13,15 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
 	shell:SystemTray.IsVisible="false">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Border Background="White">
-        <Grid x:Name="LayoutRoot">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Border Background="White">
+		<Grid x:Name="LayoutRoot">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
 
-            <!--TitlePanel contains the name of the application and page title-->
+			<!--TitlePanel contains the name of the application and page title-->
 			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 				<TextBlock x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DD000000"/>
 				<TextBlock x:Name="PageTitle" Text="Your score" Margin="0,-7,10,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DD000000" TextAlignment="Center"/>
@@ -29,13 +29,18 @@
 
 			<!--ContentPanel - place additional content here-->
 			<Grid x:Name="UserNameSubmittal" Grid.Row="2"  Margin="0,22,0,0">
-				<TextBox x:Name="Username" Height="72" Margin="14,483,10,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="456"/>
+
+				<TextBox  x:Name="Username" Height="93" Margin="3,462,2,0" Padding="10,10,10,10"  TextWrapping="Wrap" Text="Enter your username!" VerticalAlignment="Top" Width="475" GotFocus="usernameFocused" LostFocus="usernameBlured" Background="#00000000" Foreground="#DE56c5db" HorizontalAlignment="Center" TextAlignment="Center" KeyDown="submitUsername">
+					<TextBox.BorderBrush>
+						<SolidColorBrush Color="#FF9D9D9D"/>
+					</TextBox.BorderBrush>
+				</TextBox>
 				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
 			</Grid>
-			
-            <Grid.Background>
-                <ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
-            </Grid.Background>
-        </Grid>
-    </Border>
+
+			<Grid.Background>
+				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
+			</Grid.Background>
+		</Grid>
+	</Border>
 </phone:PhoneApplicationPage>
