@@ -12,6 +12,8 @@ namespace monorun
         // Animation representing the player
         public Texture2D ItemTexture;
         private Color[] textureData;
+
+		public Boolean freeze { get; set; }
        
 
         // Position of the Player relative to the upper left side of the screen
@@ -25,6 +27,7 @@ namespace monorun
 
         public virtual void Initialize(Texture2D texture, Vector2 position)
         {
+			freeze = false;
             ItemTexture = texture;
             textureData = generateTextureData();
             // Set the starting position of the player around the middle of the screen and to the back

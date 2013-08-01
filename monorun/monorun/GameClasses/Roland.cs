@@ -28,12 +28,14 @@ namespace monorun
             {
                 generateNewPosition();
             }
-            
-            Position = calculatedPositions[positionCounter];
+            if( freeze == false ) 
+			{
+				Position = calculatedPositions[positionCounter];
+				positionCounter++;
+			}
 
             spriteBatch.Draw(ItemTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            positionCounter++;
         }
         public void generateNewPosition()
         {

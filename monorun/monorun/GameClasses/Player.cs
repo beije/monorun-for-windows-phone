@@ -12,6 +12,8 @@ namespace monorun
     {
         public override void Update()
         {
+			if( freeze == true ) return;
+
             while (TouchPanel.IsGestureAvailable)
             {
                 GestureSample gesture = TouchPanel.ReadGesture();

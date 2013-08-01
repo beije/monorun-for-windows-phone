@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -31,6 +32,7 @@ namespace monorun
         ApiHandler api;
         DateTime startGameTime;
         DateTime endGameTime;
+		Boolean gameHasEnded;
 
         public GamePage()
         {
@@ -63,8 +65,8 @@ namespace monorun
 
             api.doRequest("register",null);
             startGameTime = DateTime.Now;
-
-
+			collided = false;
+			gameHasEnded = false;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
@@ -100,7 +102,7 @@ namespace monorun
 
         public void addRoland(object sender, GameTimerEventArgs e)
         {
-            //if (rolands.Count >= 5) return;
+            if ( collided ) return;
             int ScreenWidth = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
             int ScreenHeight = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
             Random rnd = new Random();
@@ -115,17 +117,24 @@ namespace monorun
         }
         public void endGame() 
         {
-            endGameTime = DateTime.Now;
-            TimeSpan span = endGameTime - startGameTime;
-            int ms = (int)span.TotalMilliseconds;
-            System.Diagnostics.Debug.WriteLine(startGameTime);
-            System.Diagnostics.Debug.WriteLine(endGameTime);
+			gameHasEnded = true;
+			endGameTime = DateTime.Now;
+			TimeSpan span = endGameTime - startGameTime;
+			int ms = (int)span.TotalMilliseconds;
+			api.postResult(ms, "WP - Beije");
 
-            api.postResult(ms, "WP - Beije");
-            System.Threading.Thread.Sleep(2000);
-            timer.Stop();
-            NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
-			NavigationService.RemoveBackEntry();
+			// Freeze frame for two seconds and then move on
+			// to another screen.
+			DispatcherTimer timeout = new DispatcherTimer();
+			timeout.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+			timeout.Tick += (object sender, EventArgs e) =>
+			{
+				timer.Stop();
+				NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+				NavigationService.RemoveBackEntry();
+				timeout.Stop(); // We only want this timer to run once, so we kill it after the first run.
+			};
+			timeout.Start();
         }
         /// <summary>
         /// Allows the page to run logic such as updating the world,
@@ -139,17 +148,27 @@ namespace monorun
             {
                 renderable.Update();
             }
-            collided = false;
+
+			if( collided ) return;
             foreach( Roland roland in rolands )
             {
                 if (IntersectsPixel(player.getItemRectangle(), player.getTextureData(), roland.getItemRectangle(), roland.getTextureData()))
                 {
                     collided = true;
+					stopAllItems();
                     break;
                 }
             }
             
         }
+
+		public void stopAllItems()
+		{
+			foreach (GameItem renderable in gameItems)
+			{
+				renderable.freeze = true;
+			}
+		}
 
         /// <summary>
         /// Allows the page to draw itself.
@@ -209,7 +228,7 @@ namespace monorun
                 // Stop drawing
                 spriteBatch.End();
             }
-            if (collided) 
+			if (collided && !gameHasEnded) 
             {
                 endGame();
             }
