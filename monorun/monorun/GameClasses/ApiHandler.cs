@@ -13,8 +13,8 @@ namespace monorun
     public class ApiHandler
     {
         public Boolean isOnline;
-        private string serverName = "10.0.0.11";
-        private string apiPath = "/monorun/monorun/api/api.php";
+        private string serverName = "dev.monorun.com";
+        private string apiPath = "/api/api.php";
         private string apiProtocol = "http";
         private string apiUrl = "";
         private string playerid;
@@ -56,10 +56,6 @@ namespace monorun
 
         public void doRequest(string type, Action<Object, DownloadStringCompletedEventArgs> callback)
         {
-            if (!isOnline)
-            {
-                return;
-            }
             switch( type )
             {
                 case "register":
@@ -80,19 +76,27 @@ namespace monorun
                 {
                     playerid = JsonConvert.DeserializeObject<String>((string)e.Result);
                 }
-                catch (Exception exc) { }
+                catch (Exception exc) {
+					// Something is wrong with the API, turn off the connection
+					isOnline = false;
+				}
  
                 System.Diagnostics.Debug.WriteLine(playerid);
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("Request failed");
-                //System.Diagnostics.Debug.WriteLine(e.Error);
+				// Something is wrong with the API, turn off the connection
+				isOnline = false;
             }
         }
         
         private void makeRequest( String url, Action<Object, DownloadStringCompletedEventArgs> callback )
         {
+			if (!isOnline)
+			{
+				return;
+			}
             WebClient client = new WebClient();
             Uri uri = new Uri(url);
             if (callback != null) 
