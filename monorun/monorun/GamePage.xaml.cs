@@ -111,7 +111,13 @@ namespace monorun
 
             Roland enemy = new Roland();
             enemy.setPreAnimator(preAnimator );
-            enemy.Initialize(contentManager.Load<Texture2D>("Graphics\\roland_large"), enemyPosition);
+
+			if( rnd.Next(0,2) == 1 ) 
+			{
+				enemy.Initialize(contentManager.Load<Texture2D>("Graphics\\roland_large"), enemyPosition);
+			} else {
+				enemy.Initialize(contentManager.Load<Texture2D>("Graphics\\roland_small"), enemyPosition);
+			}
 
             rolands.Add( enemy );
             gameItems.Add( enemy );
@@ -176,20 +182,10 @@ namespace monorun
         /// </summary>
         private void OnDraw(object sender, GameTimerEventArgs e)
         {
-            if (!collided)
-            {
-                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(new Color(22,27,30));
-            }
-            else
-            {
-                SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.Red);     
-            }
-            
 
-
+            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(new Color(22,27,30));
 
             // TODO: Add your drawing code here
-
             // Connect rolands together
             for (int i = 0; i < rolands.Count; i = i + 2)
             {
@@ -197,11 +193,11 @@ namespace monorun
                 var basePos = rolands[i].Position;
                 var newPos = rolands[i + 1].Position;
 
-                basePos.X += 31;
-                basePos.Y += 36;
+				basePos.X += (rolands[i].Width/2);
+				basePos.Y += (rolands[i].Height / 2);
 
-                newPos.X += 31;
-                newPos.Y += 36;
+				newPos.X += (rolands[i + 1].Width / 2);
+				newPos.Y += (rolands[i + 1].Height / 2);
 
                 spriteBatch.Begin();
                 if (basePos.Y > newPos.Y)
@@ -216,19 +212,19 @@ namespace monorun
                 spriteBatch.End();
             }
 
+			// Render out all items
+			foreach (GameItem renderable in gameItems)
+			{
+				// Start drawing
+				spriteBatch.Begin();
 
-            // Render out all items
-            foreach (GameItem renderable in gameItems)
-            {
-                // Start drawing
-                spriteBatch.Begin();
+				// Draw the item
+				renderable.Draw(spriteBatch);
 
-                // Draw the item
-                renderable.Draw(spriteBatch);
+				// Stop drawing
+				spriteBatch.End();
+			}
 
-                // Stop drawing
-                spriteBatch.End();
-            }
 			if (collided && !gameHasEnded) 
             {
                 endGame();
@@ -239,13 +235,12 @@ namespace monorun
         void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end)
         {
             var t = new Texture2D(SharedGraphicsDeviceManager.Current.GraphicsDevice, 1, 1);
-            t.SetData<Color>(
-                new Color[] { Color.White });// fill the texture with white
+            t.SetData<Color>(new Color[] { Color.White });
 
             Vector2 edge = end - start;
             // calculate angle to rotate line
             float angle =
-                (float)Math.Atan2(edge.Y, edge.X);
+				(float)Math.Atan2(edge.Y - 5, edge.X);
 
 
             sb.Draw(t,
