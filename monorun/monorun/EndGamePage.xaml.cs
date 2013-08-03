@@ -14,9 +14,12 @@ namespace monorun
 {
     public partial class EndGamePage : PhoneApplicationPage
     {
+		private ApiHandler api;
+
 		public EndGamePage()
         {
             InitializeComponent();
+			api = (Application.Current as App).api;
         }
 
 		private void View_Main(object sender, RoutedEventArgs e)
@@ -28,8 +31,6 @@ namespace monorun
 		{
 			if (e.Key == Key.Enter)
 			{
-				TextBox t = (TextBox)sender;
-				MessageBox.Show(t.Text);
 				Object SubmitButton = LayoutRoot.FindName("submitScoreButton");
 				if( SubmitButton is Button )
 				{
@@ -41,7 +42,15 @@ namespace monorun
 		}
 		private void updateScore( Object sender, RoutedEventArgs e )
 		{
-			//submitScoreButton
+			Object usernameObject = LayoutRoot.FindName("Username");
+			if (usernameObject is TextBox)
+			{
+				TextBox usernameInput = (TextBox) usernameObject;
+				api.updateScore(usernameInput.Text);
+			}
+
+			NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+			NavigationService.RemoveBackEntry();
 		}
 		private void usernameFocused(object sender, RoutedEventArgs e)
 		{

@@ -13,6 +13,8 @@ namespace monorun
     public class ApiHandler
     {
         public Boolean isOnline;
+		public Highscore LatestHighscore = new Highscore();
+
         private string serverName = "dev.monorun.com";
         private string apiPath = "/api/api.php";
         private string apiProtocol = "http";
@@ -37,17 +39,46 @@ namespace monorun
         {
             isOnline = state;
         }
+		public void updateScore( String username ) 
+		{
+			if (LatestHighscore.secretkey == "") return;
+			if (username.Trim() == "") return;
+
+			String url = apiUrl + "?do=update&id=" + LatestHighscore.id + "&username=" + HttpUtility.UrlEncode(username.Trim()) + "&secretkey=" + LatestHighscore.secretkey;
+			LatestHighscore.username = username;
+
+			Action<Object, DownloadStringCompletedEventArgs> cb = (o, e) =>
+			{
+				if (!e.Cancelled && e.Error == null)
+				{
+					System.Diagnostics.Debug.WriteLine("Username updated: " + (String)e.Result);
+				}
+			};
+
+			makeRequest(url, cb);
+
+
+		}
         public void postResult( int score, string username )
         {
             if (playerid == "") return;
 
-            String url = apiUrl + "?do=put&playerid=" + playerid + "&username=" + HttpUtility.UrlEncode(username) + "&score=" + score + "&sourceid=3";
+            String url = apiUrl + "?do=put&playerid=" + playerid + "&score=" + score + "&sourceid=3";
 
             Action<Object, DownloadStringCompletedEventArgs> cb = (o, e) =>
              {
                  if (!e.Cancelled && e.Error == null)
                  {
-                     System.Diagnostics.Debug.WriteLine("Score registered: " + (String) e.Result);
+					 try
+					 {
+						 System.Diagnostics.Debug.WriteLine("Score registered: " + (String)e.Result);
+						 LatestHighscore = JsonConvert.DeserializeObject<Highscore>( (string) e.Result );
+					 }
+					 catch (Exception)
+					 {
+						 // Something is wrong with the API, turn off the connection
+						 isOnline = false;
+					 }
                  }
              };
 
