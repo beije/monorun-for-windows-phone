@@ -46,7 +46,9 @@ namespace monorun
 			if (usernameObject is TextBox)
 			{
 				TextBox usernameInput = (TextBox) usernameObject;
-				api.updateScore(usernameInput.Text);
+				if (usernameInput.Text != "Enter your username!"){
+					api.updateScore(usernameInput.Text);
+				}
 			}
 
 			NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));

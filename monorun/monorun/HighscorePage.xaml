@@ -13,48 +13,42 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
 	shell:SystemTray.IsVisible="false">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Border Background="White">
-        <Grid x:Name="LayoutRoot">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Border Background="White">
+		<Grid x:Name="LayoutRoot">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
 
-            <!--TitlePanel contains the name of the application and page title-->
+			<!--TitlePanel contains the name of the application and page title-->
 			<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 				<TextBlock x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DD000000"/>
 				<TextBlock x:Name="PageTitle" Text="highscore" Margin="0,-7,10,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DD000000" TextAlignment="Center"/>
 			</StackPanel>
 
 			<!--ContentPanel - place additional content here-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-				<Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" Width="456" Height="563">
+			<Grid x:Name="ContentPanel" Grid.Row="1" Margin="20,0,20,0">
+				<Grid x:Name="highscoreList" HorizontalAlignment="Left" ShowGridLines="False" Width="440" Height="563" VerticalAlignment="Top">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
-						<ColumnDefinition />
+						<ColumnDefinition Width="250" />
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
 					</Grid.RowDefinitions>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Foreground="#DD000000" Margin="0,-30,0,0">rank</TextBlock>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Foreground="#DD000000" Margin="0,-30,0,0">name</TextBlock>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" Foreground="#DD000000" Margin="0,-30,0,0">hours</TextBlock>
 				</Grid>
 				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
 
 			</Grid>
-			
-            <Grid.Background>
-                <ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
-            </Grid.Background>
-        </Grid>
-    </Border>
+
+			<Grid.Background>
+				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
+			</Grid.Background>
+		</Grid>
+	</Border>
 </phone:PhoneApplicationPage>
