@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
   <App xmlns="" ProductID="{ebb957bf-84b0-4a36-98b3-530f670435ca}" Title="monorun" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Benjamin Horn" Description="Monorun! is a minimalistic game about the transience of life. As the nucleus of an atom, it's your purpose to stay positive for as long as you can. Avoid those negative electrons." Publisher="monorun">
-    <IconPath IsRelative="true" IsResource="false">graphics\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Graphics\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
@@ -13,7 +13,7 @@
     <Tokens>
       <PrimaryToken TokenID="monorunToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">graphics\ApplicationIcon.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Graphics\Background.png</BackgroundImageURI>
           <Count>0</Count>
           <Title>monorun</Title>
         </TemplateType5>
