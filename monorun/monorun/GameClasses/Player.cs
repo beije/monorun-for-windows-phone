@@ -20,7 +20,9 @@ namespace monorun
                 //System.Diagnostics.Debug.WriteLine(gesture.Delta);
                 if (gesture.GestureType == GestureType.FreeDrag)
                 {
-                    Position += gesture.Delta;
+                    Position = gesture.Position;
+					Position.X -= Width/2;
+					Position.Y -= Height / 2;
                 }
             }
             float ScreenWidth = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
