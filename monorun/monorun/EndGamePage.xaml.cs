@@ -24,13 +24,24 @@ namespace monorun
 			NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
 			NavigationService.RemoveBackEntry();
 		}
-		private void submitUsername(object sender, KeyEventArgs e)
+		private void usernameKeyEventListener(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Enter)
 			{
 				TextBox t = (TextBox)sender;
 				MessageBox.Show(t.Text);
+				Object SubmitButton = LayoutRoot.FindName("submitScoreButton");
+				if( SubmitButton is Button )
+				{
+					Button btn = (Button) SubmitButton;
+					btn.Focus();
+				}
+				
 			}
+		}
+		private void updateScore( Object sender, RoutedEventArgs e )
+		{
+			//submitScoreButton
 		}
 		private void usernameFocused(object sender, RoutedEventArgs e)
 		{
