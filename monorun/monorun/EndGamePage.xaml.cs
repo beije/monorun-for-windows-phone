@@ -20,6 +20,13 @@ namespace monorun
         {
             InitializeComponent();
 			api = (Application.Current as App).api;
+
+			System.Windows.Documents.Run userScore = (System.Windows.Documents.Run)LayoutRoot.FindName("userScore");
+			userScore.Text = (String)api.LatestHighscore.score.ToString();
+
+			System.Windows.Documents.Run userHalfLife = (System.Windows.Documents.Run) LayoutRoot.FindName("userHalfLife");
+			userHalfLife.Text = (String) Math.Floor(api.LatestHighscore.score/1000).ToString();
+
         }
 
 		private void View_Main(object sender, RoutedEventArgs e)
@@ -47,6 +54,7 @@ namespace monorun
 			{
 				TextBox usernameInput = (TextBox) usernameObject;
 				if (usernameInput.Text != "Enter your username!"){
+					api.LatestHighscore.username = usernameInput.Text;
 					api.updateScore(usernameInput.Text);
 				}
 			}

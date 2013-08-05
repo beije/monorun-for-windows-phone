@@ -128,6 +128,7 @@ namespace monorun
 			endGameTime = DateTime.Now;
 			TimeSpan span = endGameTime - startGameTime;
 			int ms = (int)span.TotalMilliseconds;
+			api.LatestHighscore.score = ms;
 			api.postResult(ms, "WP - Beije");
 
 			// Freeze frame for two seconds and then move on

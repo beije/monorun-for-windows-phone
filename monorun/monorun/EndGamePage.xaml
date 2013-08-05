@@ -30,15 +30,29 @@
 			<!--ContentPanel - place additional content here-->
 			<Grid x:Name="UserNameSubmittal" Grid.Row="2"  Margin="0,22,0,0">
 
-				<TextBox  x:Name="Username" Height="93" Margin="5,346,0,0" Padding="10,10,10,10"  TextWrapping="Wrap" Text="Enter your username!" VerticalAlignment="Top" Width="475" GotFocus="usernameFocused" LostFocus="usernameBlured" Background="#00000000" Foreground="#DE56c5db" HorizontalAlignment="Center" TextAlignment="Center" KeyDown="usernameKeyEventListener" VerticalContentAlignment="Stretch">
+				<TextBlock x:Name="scoreDescription"  HorizontalAlignment="Left" TextAlignment="Center" FontSize="25" Margin="26,-10,0,0" TextWrapping="Wrap" Height="365" Width="433" VerticalAlignment="Top" Foreground="Black">
+					<TextBlock.Inlines>
+						<Run Text="You stayed positive for "/>
+						<Run x:Name="userScore" Text="2122" FontWeight="Bold" Foreground="#FF57C5DB" FontSize="30" />
+						<Run Text=" ms which gives your high score a half-life of "/>
+						<Run x:Name="userHalfLife" Text="2" FontWeight="Bold" Foreground="#FF57C5DB" FontSize="30" />
+						<Run Text=" h." />
+						<LineBreak/>
+						<LineBreak/>
+						<Run Text="Like everything in life, your high score will decay with time. Enjoy it while it lasts."/>
+						<LineBreak/>
+						<LineBreak/>
+						<Run Text="Claim this high score as your own by entering your name. By leaving it as it is, your high score will remain anonymous." Foreground="#FF666666" FontSize="20"/>
+					</TextBlock.Inlines>
+				</TextBlock>
+				<TextBox  x:Name="Username" Height="93" Margin="5,360,0,0" Padding="10,10,10,10"  TextWrapping="Wrap" Text="Enter your username!" VerticalAlignment="Top" Width="475" GotFocus="usernameFocused" LostFocus="usernameBlured" Background="#00000000" Foreground="#DE56c5db" HorizontalAlignment="Center" TextAlignment="Center" KeyDown="usernameKeyEventListener" VerticalContentAlignment="Stretch">
 					<TextBox.BorderBrush>
 						<SolidColorBrush Color="#FF9D9D9D"/>
 					</TextBox.BorderBrush>
 				</TextBox>
-				<Button x:Name="submitScoreButton" Height="100"  Content="Submit and view high score" Click="updateScore" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,105" VerticalAlignment="Bottom" />
-				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
+				<Button x:Name="submitScoreButton" Height="100"  Content="submit and view high score" Click="updateScore" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,105" VerticalAlignment="Bottom" />
+				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,20" VerticalAlignment="Bottom" />
 			</Grid>
-
 			<Grid.Background>
 				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
 			</Grid.Background>
