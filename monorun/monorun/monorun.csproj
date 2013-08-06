@@ -79,7 +79,7 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="highscore.cs" />
+    <Compile Include="GameClasses\highscore.cs" />
     <Compile Include="HighscorePage.xaml.cs">
       <DependentUpon>HighscorePage.xaml</DependentUpon>
     </Compile>

@@ -35,12 +35,20 @@ namespace monorun
                 }
             }
         }
+
         public void setConnectionState(Boolean state) 
         {
             isOnline = state;
         }
-		public void updateScore( String username ) 
+
+		public void updateScore( String username, Action callback ) 
 		{
+			if (isOnline == false)
+			{
+				callback();
+				return;
+			}
+
 			if (LatestHighscore.secretkey == "") return;
 			if (username.Trim() == "") return;
 
@@ -51,7 +59,7 @@ namespace monorun
 			{
 				if (!e.Cancelled && e.Error == null)
 				{
-					System.Diagnostics.Debug.WriteLine("Username updated: " + (String)e.Result);
+					callback();
 				}
 			};
 
@@ -59,9 +67,13 @@ namespace monorun
 
 
 		}
-        public void postResult( int score, string username )
+
+        public void postResult( int score, string username, Action callback )
         {
-            if (playerid == "") return;
+            if (playerid == "" || isOnline == false ) {
+				callback();
+				return;
+			}
 
             String url = apiUrl + "?do=put&playerid=" + playerid + "&score=" + score + "&sourceid=3";
 
@@ -79,55 +91,77 @@ namespace monorun
 						 // Something is wrong with the API, turn off the connection
 						 isOnline = false;
 					 }
+					 callback();
                  }
              };
 
             makeRequest(url, cb);
         }
 
-        public void doRequest(string type, Action<Object, DownloadStringCompletedEventArgs> callback)
-        {
-            switch( type )
-            {
-                case "register":
-                    makeRequest(apiUrl + "?do=register", registerPlayer);
-                break;
-                case "get":
-                    makeRequest(apiUrl + "?do=get", callback);  
-                break;
-            }
-        
-        }
+		public void getSessionId(Action callback)
+		{
+			if ( isOnline == false )
+			{
+				callback();
+				return;
+			}
 
-        private void registerPlayer(Object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (!e.Cancelled && e.Error == null)
-            {
-                try
-                {
-                    playerid = JsonConvert.DeserializeObject<String>((string)e.Result);
-                }
-                catch (Exception) {
-					// Something is wrong with the API, turn off the connection
-					isOnline = false;
+			String url = apiUrl + "?do=register";
+
+			Action<Object, DownloadStringCompletedEventArgs> cb = (o, e) =>
+			{
+				if (!e.Cancelled && e.Error == null)
+				{
+					try
+					{
+						playerid = JsonConvert.DeserializeObject<String>((string)e.Result);
+					}
+					catch (Exception)
+					{
+						// Something is wrong with the API, turn off the connection
+						isOnline = false;
+					}
+					callback();
 				}
- 
-                System.Diagnostics.Debug.WriteLine(playerid);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Request failed");
-				// Something is wrong with the API, turn off the connection
-				isOnline = false;
-            }
-        }
+			};
+
+			makeRequest(url, cb);
+		}
+
+		public void getHighscore(Action<List<Highscore>> callback)
+		{
+			if (isOnline == false)
+			{
+				callback(new List<Highscore>());
+				return;
+			}
+
+			String url = apiUrl + "?do=get";
+
+			Action<Object, DownloadStringCompletedEventArgs> cb = (o, e) =>
+			{
+				if (!e.Cancelled && e.Error == null)
+				{
+					try
+					{
+						List<Highscore> list = JsonConvert.DeserializeObject<List<Highscore>>((String)e.Result);
+						callback(list);
+					}
+					catch (Exception)
+					{
+						// Something is wrong with the API, turn off the connection
+						isOnline = false;
+						callback(new List<Highscore>());
+					}
+					
+				}
+			};
+
+			makeRequest(url, cb);
+		}
         
         private void makeRequest( String url, Action<Object, DownloadStringCompletedEventArgs> callback )
         {
-			if (!isOnline)
-			{
-				return;
-			}
             WebClient client = new WebClient();
             Uri uri = new Uri(url);
             if (callback != null) 
@@ -136,6 +170,7 @@ namespace monorun
             }
             client.DownloadStringAsync(uri);
         }
+
         private Boolean CheckForInternetConnection()
         {
             return (NetworkInterface.NetworkInterfaceType != NetworkInterfaceType.None);

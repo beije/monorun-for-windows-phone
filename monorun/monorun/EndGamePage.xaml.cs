@@ -47,21 +47,30 @@ namespace monorun
 				
 			}
 		}
+
 		private void updateScore( Object sender, RoutedEventArgs e )
 		{
 			Object usernameObject = LayoutRoot.FindName("Username");
+			String newUsername = api.LatestHighscore.username;
+
 			if (usernameObject is TextBox)
 			{
 				TextBox usernameInput = (TextBox) usernameObject;
-				if (usernameInput.Text != "Enter your username!"){
-					api.LatestHighscore.username = usernameInput.Text;
-					api.updateScore(usernameInput.Text);
+				if (usernameInput.Text != "Enter your username!") {
+					newUsername = usernameInput.Text;
 				}
 			}
 
-			NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
-			NavigationService.RemoveBackEntry();
+			api.LatestHighscore.username = newUsername;
+
+			Action cb = () => {
+				NavigationService.Navigate(new Uri("/HighscorePage.xaml", UriKind.Relative));
+				NavigationService.RemoveBackEntry();
+			};
+
+			api.updateScore(newUsername, cb);
 		}
+
 		private void usernameFocused(object sender, RoutedEventArgs e)
 		{
 			TextBox t = (TextBox)sender;

@@ -63,7 +63,6 @@ namespace monorun
 
 
             api = new ApiHandler(isApiAvailable);
-            System.Diagnostics.Debug.WriteLine(api.isOnline);
 
             //api.doRequest("get");
 

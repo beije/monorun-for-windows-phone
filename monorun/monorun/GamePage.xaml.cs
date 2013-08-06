@@ -63,31 +63,41 @@ namespace monorun
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
             gameItems = new List<GameItem>();
             rolands = new List<Roland>();
+			//getSessionId
 
-            api.doRequest("register",null);
-            startGameTime = DateTime.Now;
-			collided = false;
-			gameHasEnded = false;
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
+			Action cb = () => {
+				startGame();
+			};
 
-            // TODO: use this.content to load your game content here
-            //MessageBox.Show("Game start");
-            // Start the timer
-            timer.Start();
-            AddRolands.Start();
-
-            player = new Player();
-   
-            Vector2 playerPosition = new Vector2(20, 20);
-            player.Initialize(contentManager.Load<Texture2D>("Graphics\\player"), playerPosition);
-
-            gameItems.Add( player );
-
-            TouchPanel.EnabledGestures = GestureType.FreeDrag;
+			api.getSessionId(cb);
 
             base.OnNavigatedTo(e);
         }
+
+		public void startGame()
+		{
+			startGameTime = DateTime.Now;
+			collided = false;
+			gameHasEnded = false;
+
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
+
+			// TODO: use this.content to load your game content here
+			//MessageBox.Show("Game start");
+			// Start the timer
+			timer.Start();
+			AddRolands.Start();
+
+			player = new Player();
+
+			Vector2 playerPosition = new Vector2(20, 20);
+			player.Initialize(contentManager.Load<Texture2D>("Graphics\\player"), playerPosition);
+
+			gameItems.Add(player);
+
+			TouchPanel.EnabledGestures = GestureType.FreeDrag;
+		}
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -129,20 +139,25 @@ namespace monorun
 			TimeSpan span = endGameTime - startGameTime;
 			int ms = (int)span.TotalMilliseconds;
 			api.LatestHighscore.score = ms;
-			api.postResult(ms, "WP - Beije");
 
-			// Freeze frame for two seconds and then move on
-			// to another screen.
-			DispatcherTimer timeout = new DispatcherTimer();
-			timeout.Interval = new TimeSpan(0, 0, 0, 0, 2000);
-			timeout.Tick += (object sender, EventArgs e) =>
-			{
-				timer.Stop();
-				NavigationService.Navigate(new Uri("/EndGamePage.xaml", UriKind.Relative));
-				NavigationService.RemoveBackEntry();
-				timeout.Stop(); // We only want this timer to run once, so we kill it after the first run.
+			Action cb = () => {
+
+				// Freeze frame for two seconds and then move on
+				// to another screen.
+				DispatcherTimer timeout = new DispatcherTimer();
+				timeout.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+				timeout.Tick += (object sender, EventArgs e) =>
+				{
+					timer.Stop();
+					NavigationService.Navigate(new Uri("/EndGamePage.xaml", UriKind.Relative));
+					NavigationService.RemoveBackEntry();
+					timeout.Stop(); // We only want this timer to run once, so we kill it after the first run.
+				};
+				timeout.Start();
 			};
-			timeout.Start();
+
+
+			api.postResult(ms, "WP - Beije", cb);
         }
         /// <summary>
         /// Allows the page to run logic such as updating the world,

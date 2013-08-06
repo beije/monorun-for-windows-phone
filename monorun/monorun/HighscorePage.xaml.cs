@@ -22,45 +22,17 @@ namespace monorun
             InitializeComponent();
 			
 			api = (Application.Current as App).api;
-			api.doRequest("get", loadHighscore);
-/*
-			HighscoreList.Items.Add("Phoebe Capricornus");
-			HighscoreList.Items.Add("Phoebe Fornax");
-			HighscoreList.Items.Add("Iapetos Coma Beren");
-			HighscoreList.Items.Add("Rhea Pictor");
-			HighscoreList.Items.Add("Hyperion Taurus");
-			HighscoreList.Items.Add("Kreios Andromeda");
-			HighscoreList.Items.Add("Phoebe Fornax");
-			HighscoreList.Items.Add("Iapetos Coma Beren");
-			HighscoreList.Items.Add("Rhea Pictor");
-			HighscoreList.Items.Add("Hyperion Taurus");
- */
+			//api.doRequest("get", loadHighscore);
+
+			Action<List<Highscore>> cb = (list) => {
+				topHighscores = list;
+				renderHighscoreTable();
+			};
+
+			api.getHighscore(cb);
 
         }
 
-		private void loadHighscore(Object sender, DownloadStringCompletedEventArgs e)
-		{
-            if (!e.Cancelled && e.Error == null)
-            {
-                try
-                {
-                    topHighscores = JsonConvert.DeserializeObject<List<Highscore>>((string)e.Result);
-					renderHighscoreTable();
-                }
-                catch (Exception) {
-					// Something is wrong with the API, turn off the connection
-					api.isOnline = false;
-				}
- 
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Request failed");
-				// Something is wrong with the API, turn off the connection
-				api.isOnline = false;
-            }
-			
-		}
 		private void renderHighscoreTable()
 		{
 			highscoreList = (Grid)LayoutRoot.FindName("highscoreList");
