@@ -22,10 +22,17 @@ namespace monorun
             InitializeComponent();
 			
 			api = (Application.Current as App).api;
-			//api.doRequest("get", loadHighscore);
+			TextBlock loadingDataSplash = (TextBlock)LayoutRoot.FindName("loadingDataSplash");
 
+			if (!api.isOnline)
+			{
+				loadingDataSplash.Text = "No internet connection.";
+				return;
+			}
+			
 			Action<List<Highscore>> cb = (list) => {
 				topHighscores = list;
+				loadingDataSplash.Visibility = System.Windows.Visibility.Collapsed;
 				renderHighscoreTable();
 			};
 

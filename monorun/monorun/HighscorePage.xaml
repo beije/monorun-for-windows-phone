@@ -45,7 +45,7 @@
 				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
 
 			</Grid>
-
+			<TextBlock x:Name="loadingDataSplash" Margin="0,200,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Loading data." Foreground="#DD000000" VerticalAlignment="Top" TextAlignment="Center" FontSize="30"/>
 			<Grid.Background>
 				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
 			</Grid.Background>
