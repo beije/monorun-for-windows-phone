@@ -27,6 +27,16 @@ namespace monorun
 			System.Windows.Documents.Run userHalfLife = (System.Windows.Documents.Run) LayoutRoot.FindName("userHalfLife");
 			userHalfLife.Text = (String) Math.Floor(api.LatestHighscore.score/1000).ToString();
 
+			if( !api.isOnline ) 
+			{
+				Button SubmitButton = (Button) LayoutRoot.FindName("submitScoreButton");
+				SubmitButton.Visibility = System.Windows.Visibility.Collapsed;
+
+				TextBox usernameInput = (TextBox)LayoutRoot.FindName("Username");
+				usernameInput.Text = "No internet connection.";
+				usernameInput.IsEnabled = false;
+			}
+
         }
 
 		private void View_Main(object sender, RoutedEventArgs e)
@@ -38,29 +48,20 @@ namespace monorun
 		{
 			if (e.Key == Key.Enter)
 			{
-				Object SubmitButton = LayoutRoot.FindName("submitScoreButton");
-				if( SubmitButton is Button )
-				{
-					Button btn = (Button) SubmitButton;
-					btn.Focus();
-				}
-				
+				Button SubmitButton = (Button) LayoutRoot.FindName("submitScoreButton");
+				SubmitButton.Focus();
 			}
 		}
 
 		private void updateScore( Object sender, RoutedEventArgs e )
 		{
-			Object usernameObject = LayoutRoot.FindName("Username");
+			TextBox usernameInput = (TextBox)LayoutRoot.FindName("Username");
 			String newUsername = api.LatestHighscore.username;
 
-			if (usernameObject is TextBox)
-			{
-				TextBox usernameInput = (TextBox) usernameObject;
-				if (usernameInput.Text != "Enter your username!") {
-					newUsername = usernameInput.Text;
-				}
+			if (usernameInput.Text != "Enter your username!") {
+				newUsername = usernameInput.Text;
 			}
-
+			
 			api.LatestHighscore.username = newUsername;
 
 			Action cb = () => {
@@ -73,7 +74,7 @@ namespace monorun
 
 		private void usernameFocused(object sender, RoutedEventArgs e)
 		{
-			TextBox t = (TextBox)sender;
+			TextBox t = (TextBox) sender;
 			t.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 86, 197, 219));
 			if( t.Text.Trim() == "Enter your username!")
 			{
