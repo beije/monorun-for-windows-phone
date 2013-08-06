@@ -64,10 +64,8 @@ namespace monorun
 			};
 
 			makeRequest(url, cb);
-
-
 		}
-
+		
         public void postResult( int score, string username, Action callback )
         {
             if (playerid == "" || isOnline == false ) {
@@ -83,7 +81,6 @@ namespace monorun
                  {
 					 try
 					 {
-						 System.Diagnostics.Debug.WriteLine("Score registered: " + (String)e.Result);
 						 LatestHighscore = JsonConvert.DeserializeObject<Highscore>( (string) e.Result );
 					 }
 					 catch (Exception)
