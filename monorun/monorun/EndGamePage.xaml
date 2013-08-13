@@ -45,13 +45,13 @@
 						<Run Text="Claim this high score as your own by entering your name. By leaving it as it is, your high score will remain anonymous." Foreground="#FF666666" FontSize="20"/>
 					</TextBlock.Inlines>
 				</TextBlock>
-				<TextBox  x:Name="Username" Height="93" Margin="5,360,0,0" Padding="10,10,10,10"  TextWrapping="Wrap" Text="Enter your username!" VerticalAlignment="Top" Width="475" GotFocus="usernameFocused" LostFocus="usernameBlured" Background="#00000000" Foreground="#DE56c5db" HorizontalAlignment="Center" TextAlignment="Center" KeyDown="usernameKeyEventListener" VerticalContentAlignment="Stretch">
+				<TextBox  x:Name="Username" Height="93" Margin="10,351,10,0" Padding="10,10,10,10"  TextWrapping="Wrap" Text="Enter your username!" VerticalAlignment="Top" Width="460" GotFocus="usernameFocused" LostFocus="usernameBlured" Background="#00000000" Foreground="#DE56c5db" HorizontalAlignment="Center" TextAlignment="Center" KeyDown="usernameKeyEventListener" VerticalContentAlignment="Stretch">
 					<TextBox.BorderBrush>
 						<SolidColorBrush Color="#FF9D9D9D"/>
 					</TextBox.BorderBrush>
 				</TextBox>
-				<Button x:Name="submitScoreButton" Height="100"  Content="submit and view high score" Click="updateScore" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,105" VerticalAlignment="Bottom" />
-				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0,0,0,20" VerticalAlignment="Bottom" />
+				<Button x:Name="submitScoreButton" Height="100"  Content="submit and view high score" Click="updateScore" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="10,0,10,110" VerticalAlignment="Bottom" />
+				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" VerticalAlignment="Bottom" Margin="10,0,10,10" />
 			</Grid>
 			<Grid.Background>
 				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />

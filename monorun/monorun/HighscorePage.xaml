@@ -29,7 +29,8 @@
 
 			<!--ContentPanel - place additional content here-->
 			<Grid x:Name="ContentPanel" Grid.Row="1" Margin="20,0,20,0">
-				<Grid x:Name="highscoreList" HorizontalAlignment="Left" ShowGridLines="False" Width="440" Height="563" VerticalAlignment="Top">
+
+				<Grid x:Name="highscoreHeader" HorizontalAlignment="Left" ShowGridLines="False" Width="440" Height="30" VerticalAlignment="Top" Margin="0,0,0,0">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
 						<ColumnDefinition Width="250" />
@@ -38,14 +39,25 @@
 					<Grid.RowDefinitions>
 						<RowDefinition />
 					</Grid.RowDefinitions>
-					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Foreground="#DD000000" Margin="0,-30,0,0">rank</TextBlock>
-					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Foreground="#DD000000" Margin="0,-30,0,0">name</TextBlock>
-					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" Foreground="#DD000000" Margin="0,-30,0,0">hours</TextBlock>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Foreground="#DD000000" Margin="0,0,0,0">rank</TextBlock>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Foreground="#DD000000" Margin="0,0,0,0">name</TextBlock>
+					<TextBlock FontWeight="Bold" VerticalAlignment="Top" Grid.Column="2" Foreground="#DD000000" HorizontalAlignment="Right" Width="55">hours</TextBlock>
 				</Grid>
-				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="0" VerticalAlignment="Bottom" />
+
+				<Grid x:Name="highscoreList" HorizontalAlignment="Left" ShowGridLines="False" Width="440" Height="533" VerticalAlignment="Top">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="250" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+					</Grid.RowDefinitions>
+				</Grid>
+				<Button Height="100" Content="main page" Click="View_Main" Background="#FF57C5DB" BorderBrush="#DDFFFFFF" Foreground="White" Margin="-8,0,-8,10" VerticalAlignment="Bottom" Width="456" />
 
 			</Grid>
-			<TextBlock x:Name="loadingDataSplash" Margin="0,200,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Loading data." Foreground="#DD000000" VerticalAlignment="Top" TextAlignment="Center" FontSize="30"/>
+			<TextBlock x:Name="loadingDataSplash" Margin="0,200,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Loading data." Foreground="#DD000000" VerticalAlignment="Top" TextAlignment="Center" FontSize="30" />
 			<Grid.Background>
 				<ImageBrush ImageSource="/Graphics/page-bg.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Top" />
 			</Grid.Background>

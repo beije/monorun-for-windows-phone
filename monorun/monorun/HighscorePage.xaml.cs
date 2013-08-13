@@ -51,7 +51,7 @@ namespace monorun
 			for( int i = 0; i < loopEnd; i++)
 			{
 				Boolean highlight = (api.LatestHighscore.id ==  topHighscores[i].id ? true : false );
-				addRow(highscoreList, topHighscores[i].position.ToString(), topHighscores[i].username, topHighscores[i].score.ToString(), highlight);
+				addRow(highscoreList, topHighscores[i].position.ToString(), topHighscores[i].username, Math.Floor(topHighscores[i].score/1000).ToString(), highlight);
 			}
 			if( loopEnd < topHighscores.Count() )
 			{
