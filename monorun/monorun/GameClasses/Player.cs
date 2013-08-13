@@ -10,6 +10,11 @@ namespace monorun
 {
     class Player : GameItem
     {
+		public Vector2 lastPosition = new Vector2();
+
+		/// <summary>
+		/// Update the player position based on touch input
+		/// </summary>
         public override void Update()
         {
 			if( freeze == true ) return;
@@ -18,7 +23,6 @@ namespace monorun
             while (TouchPanel.IsGestureAvailable)
             {
                 GestureSample gesture = TouchPanel.ReadGesture();
-                //System.Diagnostics.Debug.WriteLine(gesture.Delta);
                 if (gesture.GestureType == GestureType.FreeDrag)
                 {
                     Position = gesture.Position;

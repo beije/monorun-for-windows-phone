@@ -8,6 +8,13 @@ namespace monorun.GameClasses
 {
 	static class CollisionDetection
 	{
+		/// <summary>
+		/// Checks if two items collided (based on rectangle data)
+		/// (fast but inaccurate)
+		/// </summary>
+		/// <param name="source">The first game item</param>
+		/// <param name="target">The second game item</param>
+		/// <returns></returns>
 		static public bool intersectsBox(Rectangle source, Rectangle target)
 		{
 			return !(
@@ -19,6 +26,15 @@ namespace monorun.GameClasses
 
 		}
 
+		/// <summary>
+		/// Checks if two items collide on the pixel level
+		/// (Slow but accurate)
+		/// </summary>
+		/// <param name="rect1">The first item's position and size as rectangle</param>
+		/// <param name="data1">The first item's texturedata</param>
+		/// <param name="rect2">The second item's position and size as rectangle</param>
+		/// <param name="data2">The second item's texturedata</param>
+		/// <returns></returns>
 		static public bool IntersectsPixel(Rectangle rect1, Color[] data1, Rectangle rect2, Color[] data2)
 		{
 			if (!intersectsBox(rect1, rect2)) return false;

@@ -26,6 +26,10 @@ namespace monorun
 
         }
 
+		/// <summary>
+		/// Calculates every step in the animation.
+		/// The steps are saved to Positions
+		/// </summary>
         private void calculateAnimation()
         {
             positions = new List<Vector2>();
@@ -72,26 +76,45 @@ namespace monorun
                 }
             }
 
-            // Push in as the last step the complete end positions
+            // Push in as the last step to complete the animation
             positions.Add(new Vector2(endPosition.X, endPosition.Y));
         }
 
+		/// <summary>
+		/// Set start position of animation
+		/// </summary>
+		/// <param name="position"></param>
         public void setStartPosition(Vector2 position)
         {
             startPosition = position;
             calculatedPosition["startX"] = (int) position.X;
             calculatedPosition["startY"] = (int) position.Y;
         }
+
+		/// <summary>
+		/// Set end position of animation
+		/// </summary>
+		/// <param name="position"></param>
         public void setEndPosition(Vector2 position)
         {
             endPosition = position;
             calculatedPosition["endX"] = (int)position.X;
             calculatedPosition["endY"] = (int)position.Y;
         }
+
+		/// <summary>
+		/// Set speed of animation
+		/// </summary>
+		/// <param name="sp">the animation speed, lower == faster</param>
         public void setSpeed(int sp)
         {
             speed = sp;    
         }
+
+		/// <summary>
+		/// Returns the prerendered animation
+		/// </summary>
+		/// <returns>A list with all the positions</returns>
         public List<Vector2> getPositions()
         {
             calculateAnimation();

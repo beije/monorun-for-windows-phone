@@ -58,23 +58,9 @@ namespace monorun
             AddRolands.Update += addRoland;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Set the sharing mode of the graphics device to turn on XNA rendering
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
-            gameItems = new List<GameItem>();
-            rolands = new List<Roland>();
-			//getSessionId
-
-			Action cb = () => {
-				startGame();
-			};
-
-			api.getSessionId(cb);
-
-            base.OnNavigatedTo(e);
-        }
-
+		/// <summary>
+		/// Start all game timers and create the player object
+		/// </summary>
 		public void startGame()
 		{
 			startGameTime = DateTime.Now;
@@ -100,6 +86,35 @@ namespace monorun
 			TouchPanel.EnabledGestures = GestureType.FreeDrag;
 		}
 
+		/// <summary>
+		/// Initialize the game when the user navigates to this screen
+		/// </summary>
+		/// <param name="e"></param>
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			// Set the sharing mode of the graphics device to turn on XNA rendering
+			SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
+			gameItems = new List<GameItem>();
+			rolands = new List<Roland>();
+			
+			latestPlayerPositionCheck = DateTime.Now.AddSeconds(5);
+
+			Action cb = () =>
+			{
+				startGame();
+			};
+
+			// Start the game when the game has been
+			// registered at the API
+			api.getSessionId(cb);
+
+			base.OnNavigatedTo(e);
+		}
+
+		/// <summary>
+		/// Stop game timers when user move away from the game
+		/// </summary>
+		/// <param name="e"></param>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             // Stop the timer
@@ -112,6 +127,11 @@ namespace monorun
             base.OnNavigatedFrom(e);
         }
 
+		/// <summary>
+		/// Adds a new Roland to the game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         public void addRoland(object sender, GameTimerEventArgs e)
         {
             if ( collided ) return;
@@ -133,6 +153,11 @@ namespace monorun
             rolands.Add( enemy );
             gameItems.Add( enemy );
         }
+
+		/// <summary>
+		/// When a collision has been detected, freeze all items for 2 seconds,
+		/// post highscore and then redirect to highscore submittal page
+		/// </summary>
         public void endGame() 
         {
 			gameHasEnded = true;
@@ -160,6 +185,8 @@ namespace monorun
 
 			api.postResult(ms, "WP - Beije", cb);
         }
+
+
         /// <summary>
         /// Allows the page to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -167,7 +194,6 @@ namespace monorun
         private void OnUpdate(object sender, GameTimerEventArgs e)
         {
 
-            // TODO: Add your update logic here
 			//
 			// Redirect a random Roland to the player
 			// if the player has stood still for longer
@@ -196,11 +222,18 @@ namespace monorun
 					latestPlayerPositionCheck = now;
 				}
 			}
+
+            //
+			// Update all game items (Player and Rolands)
+			//
             foreach (GameItem renderable in gameItems)
             {
                 renderable.Update();
             }
 
+			//
+			// Collision detection
+			//
 			if( collided ) return;
             foreach( Roland roland in rolands )
             {
@@ -214,6 +247,9 @@ namespace monorun
             
         }
 
+		/// <summary>
+		/// Freeze all game items (for the still-frame at end-game)
+		/// </summary>
 		public void stopAllItems()
 		{
 			foreach (GameItem renderable in gameItems)
@@ -277,6 +313,12 @@ namespace monorun
 
         }
 
+		/// <summary>
+		/// Draws a simple line between two points
+		/// </summary>
+		/// <param name="sb"></param>
+		/// <param name="start"></param>
+		/// <param name="end"></param>
         void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end)
         {
             var t = new Texture2D(SharedGraphicsDeviceManager.Current.GraphicsDevice, 1, 1);
