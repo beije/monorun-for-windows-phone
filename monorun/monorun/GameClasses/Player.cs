@@ -13,6 +13,7 @@ namespace monorun
         public override void Update()
         {
 			if( freeze == true ) return;
+			lastPosition = Position;
 
             while (TouchPanel.IsGestureAvailable)
             {

@@ -34,6 +34,7 @@ namespace monorun
         DateTime startGameTime;
         DateTime endGameTime;
 		Boolean gameHasEnded;
+		DateTime latestPlayerPositionCheck;
 
         public GamePage()
         {
@@ -167,6 +168,34 @@ namespace monorun
         {
 
             // TODO: Add your update logic here
+			//
+			// Redirect a random Roland to the player
+			// if the player has stood still for longer
+			// than 500ms
+			//
+			DateTime now = DateTime.Now;
+
+			if (player.Position == player.lastPosition && rolands.Count > 0 )
+			{
+				TimeSpan sinceLastCheck = now - latestPlayerPositionCheck;
+				
+				if (sinceLastCheck.TotalMilliseconds > 500)
+				{
+					var rnd = new Random();
+					var randomRoland = rolands[rnd.Next(rolands.Count)];
+
+					// Redirect roland
+					randomRoland.generateNewPosition( player.Position );
+					latestPlayerPositionCheck = now;
+				}
+			}
+			else
+			{
+				if (latestPlayerPositionCheck < now)
+				{
+					latestPlayerPositionCheck = now;
+				}
+			}
             foreach (GameItem renderable in gameItems)
             {
                 renderable.Update();

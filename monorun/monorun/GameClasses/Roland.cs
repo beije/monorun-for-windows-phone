@@ -26,7 +26,17 @@ namespace monorun
         {
             if (positionCounter >= calculatedPositions.Count)
             {
-                generateNewPosition();
+				Random rnd = new Random();
+
+				int ScreenWidth = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
+				int ScreenHeight = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
+
+				int newX = rnd.Next(0, ScreenWidth);
+				int newY = rnd.Next(0, ScreenHeight);
+
+				Vector2 endPos = new Vector2((float)newX, (float)newY);
+
+				generateNewPosition(endPos);
             }
             if( freeze == false ) 
 			{
@@ -37,21 +47,13 @@ namespace monorun
             spriteBatch.Draw(ItemTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
         }
-        public void generateNewPosition()
+        public void generateNewPosition( Vector2 newPosition )
         {
             positionCounter = 0;
-            Random rnd = new Random();
-
-            int ScreenWidth = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Width;
-            int ScreenHeight = SharedGraphicsDeviceManager.Current.GraphicsDevice.Viewport.Height;
-
-            int newX = rnd.Next(0, ScreenWidth);
-            int newY = rnd.Next(0, ScreenHeight);
-
-            Vector2 endPos = new Vector2( (float) newX, (float) newY );
+			Random rnd = new Random();
 
             preAnimator.setStartPosition( Position );
-            preAnimator.setEndPosition(endPos);
+			preAnimator.setEndPosition(newPosition);
             preAnimator.setSpeed(rnd.Next(20,100));
             calculatedPositions = new List<Vector2>();
             calculatedPositions = preAnimator.getPositions();
