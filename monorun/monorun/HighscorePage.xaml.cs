@@ -56,7 +56,7 @@ namespace monorun
 			if( loopEnd < topHighscores.Count() )
 			{
 				addRow(highscoreList, "...", "...", "...", false);
-				addRow(highscoreList, api.LatestHighscore.position.ToString(), api.LatestHighscore.username, api.LatestHighscore.score.ToString(), true);
+				addRow(highscoreList, api.LatestHighscore.position.ToString(), api.LatestHighscore.username, Math.Floor(api.LatestHighscore.score / 1000).ToString(), true);
 			}
 
 		}
