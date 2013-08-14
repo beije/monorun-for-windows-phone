@@ -15,7 +15,7 @@ namespace monorun
         public Boolean isOnline;
 		public Highscore LatestHighscore = new Highscore();
 
-        private string serverName = "dev.monorun.com";
+        private string serverName = "monorun.com";
         private string apiPath = "/api/api.php";
         private string apiProtocol = "http";
         private string apiUrl = "";
